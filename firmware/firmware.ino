@@ -13,7 +13,17 @@
 #define vcc_temp    5               // 5 Vcc
 #define scale       1023            // Full scale
 #define INT_SIZE    (size_t) 2      // Int size : 2 Bytes
-#define FLOAT_SIZE  (size_t) 4      // Float size : 2 Bytes
+#define FLOAT_SIZE  (size_t) 4      // Float size : 4 Bytes
+
+// Types
+union FloatStruct{
+   float data;
+   byte  b[4];
+};
+
+// Functions
+int serialfwrite(FloatStruct data);
+int serialswrite(char *data, int size);
 
 // Variables
   // Temperature
@@ -38,18 +48,40 @@ void loop(){
   // Temperature
   rdata = analogRead(A0);            // Raw data
   vdata = rdata * vcc_temp / scale;  // Voltage data
-  tdata = vdata / s_temp;            // Temperature data
+  tdata = vdata / s_temp;       // Temperature data
   
   // Humidity
-  hdata = 0;
+  hdata = 0.0;
 
   // Light data
-  ldata = 0;
+  ldata = 0.0;
 
   Serial.print(tdata, 1);
+  Serial.print(',');
   Serial.print(hdata, 1);
-  Serial.println(ldata, 1);
+  Serial.print(',');
+  Serial.print(ldata, 1);
+  Serial.println(',');
 
-  delay(100);
+  delay(1000);
 
+}
+
+int serialfwrite(FloatStruct data){
+  int i = 0;
+  while(i < 4){
+    Serial.write(data.b[i]);
+    i++;
+  }
+  return 0;
+}
+
+int serialswrite(char *data, int size){
+  int i = 0;
+  while(i < size){
+    Serial.write(data[i]);
+    i++;
+  }
+  Serial.write('\0');
+  return 0;
 }

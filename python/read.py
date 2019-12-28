@@ -7,19 +7,24 @@ arduino = serial.Serial("/dev/ttyACM0", baudrate=115200, timeout=3.0)
 t0 = time.time()
 data = 0
 
+arduino.reset_input_buffer()	# Clean buffer
+
 while True:
 
-	#sdata = arduino.readline();
-	#data = int(sdata.strip('\n'))
-	arduino.read(size=50) # Clean buffer
-	arduino.reset_input_buffer()
+	arduino.reset_input_buffer()	# Clean buffer
 
-	tdata = float( arduino.read(size=4) )
-	hdata = float( arduino.read(size=4) )
-	ldata = float( arduino.read(size=4) )
+	data = arduino.readline()
+	# if data:
+	# 	data.rstrip('\n')
+
+	alldata = data.split(',')
+
+	tdata = alldata[0]
+	hdata = alldata[1]
+	ldata = alldata[2]
 
 	t = time.time() - t0
-	sys.stdout.write(str(tdata) + ' ' + str(hdata) + ' ' + str(ldata) + ' - ' + str(int(t)) + 's' + '\n')
+	sys.stdout.write(tdata + ' ' + hdata + ' ' + ldata + '\n')
 
 	time.sleep(1)
 

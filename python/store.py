@@ -15,7 +15,7 @@ def get_date():
     return date
 
 # Configuration
-filename = '../data/' + get_date() + '.csv'
+filename = 'data/' + get_date() + '.csv'
 portname = '/dev/ttyACM0'
 
 # Init config
@@ -64,7 +64,7 @@ while True:
 
 
     fd.close()
-    time.sleep(300)
+    time.sleep(1)
 
 # Close
 arduino.close()
