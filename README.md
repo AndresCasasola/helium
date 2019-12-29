@@ -10,18 +10,18 @@ Helium uses Raspberry Pi for SSH communication and arduino as data acquisition s
 https://github.com/arduino/arduino-cli
 
 ### Install
-Install arduino-cli in /local/bin
+Install arduino-cli
  > curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
 
-Make sure arduino arduino-cli executable is in a PATH variable folder 
+Make sure arduino-cli executable is in a PATH variable folder 
  > echo $PATH
 
 Create config file folder
  > mkdir ~/.arduino15
 
-Create config file file
+Create config file
  > arduino-cli config init
-   Correct output: "Config file written: /home/user/.arduino15/arduino-cli.yaml"
+ > Correct output: "Config file written: /home/user/.arduino15/arduino-cli.yaml"
 
 ### Connect board
 Create packages folder
@@ -29,15 +29,15 @@ Create packages folder
 
 Install and update platforms and libraries
  > arduino-cli core update-index
-   Correct last line output: Updating index: package_index.json downloaded
+ > Correct last line output: Updating index: package_index.json downloaded
 
 List connected boards
  > arduino-cli board list
-   In case arduino UNO: (FQBN: arduino:avr:uno , Core: arduino:avr)
+ > In case arduino UNO: (FQBN: arduino:avr:uno , Core: arduino:avr)
 
 Install correct core for arduino UNO
  > arduino-cli core install arduino:avr
-   Check installation with: > arduino-cli core list
+ > Check installation with: > arduino-cli core list
 
 ### Compile and upload an sketch
 Create sketch
