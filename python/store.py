@@ -15,7 +15,7 @@ def get_date():
     return date
 
 def checkPacket(alldata):
-	r = ((float(alldata[0]) < 150) and float(alldata[0]) >= 0.0 and float(alldata[1]) < 150 and float(alldata[1]) >= 0.0 and float(alldata[2]) < 150 and float(alldata[2]) >= 0.0)
+	r = ((len(alldata) == 4) and (float(alldata[0]) < 150) and float(alldata[0]) >= 0.0 and float(alldata[1]) < 150 and float(alldata[1]) >= 0.0 and float(alldata[2]) < 150 and float(alldata[2]) >= 0.0)
 	return r
 
 # Configuration
@@ -56,7 +56,7 @@ while True:
     month   = str(numbers[1])
     year    = str(numbers[0])
 
-    if ((len(alldata) == 4) and checkPacket(alldata)):
+    if (checkPacket(alldata)):
         tdata = float(alldata[0])
         hdata = float(alldata[1])
         ldata = float(alldata[2])
@@ -66,7 +66,7 @@ while True:
         print(day + '\t' + month + '\t' + year + '\t' + hour + '\t' + minute + '\t' + second + '\t' + str(tdata) + '\t' + str(hdata) + '\t' + str(ldata))
 		
         fd.close()
-        time.sleep(300)
+        time.sleep(150)
 
     else:
         print('Packet discarded')

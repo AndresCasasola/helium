@@ -3,7 +3,7 @@ import sys
 import time
 
 def checkPacket(alldata):
-	r = ((float(alldata[0]) < 150) and float(alldata[0]) >= 0.0 and float(alldata[1]) < 150 and float(alldata[1]) >= 0.0 and float(alldata[2]) < 150 and float(alldata[2]) >= 0.0)
+	r = ((len(alldata) == 4) and (float(alldata[0]) < 150) and float(alldata[0]) >= 0.0 and float(alldata[1]) < 150 and float(alldata[1]) >= 0.0 and float(alldata[2]) < 150 and float(alldata[2]) >= 0.0)
 	return r
 
 arduino = serial.Serial("/dev/ttyACM0", baudrate=115200, timeout=3.0)
@@ -22,7 +22,7 @@ while True:
 	# 	data.rstrip('\n')
 
 	alldata = data.split(',')
-	if ((len(alldata) == 4) and checkPacket(alldata)):
+	if (checkPacket(alldata)):
 		tdata = float(alldata[0])
 		hdata = float(alldata[1])
 		ldata = float(alldata[2])
