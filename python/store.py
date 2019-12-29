@@ -14,6 +14,10 @@ def get_date():
     date = str(numbers[2]) + '_' + str(numbers[1]) + '_' + str(numbers[0])
     return date
 
+def checkPacket(alldata):
+	r = ((float(alldata[0]) < 150) and float(alldata[0]) >= 0.0 and float(alldata[1]) < 150 and float(alldata[1]) >= 0.0 and float(alldata[2]) < 150 and float(alldata[2]) >= 0.0)
+	return r
+
 # Configuration
 filename = 'data/' + get_date() + '.csv'
 portname = '/dev/ttyACM0'
@@ -40,13 +44,9 @@ while True:
     fd = open(filename, 'a')
 
     arduino.reset_input_buffer()    # Clean full buffer
+    data = arduino.readline()
+    alldata = data.split(',')
 
-    tdata = float( arduino.read(size=4) )
-    hdata = float( arduino.read(size=4) )
-    ldata = float( arduino.read(size=4) )
-
-    rt = time.time() - t0
-    
     # Get time
     numbers = get_time()
     hour    = str(numbers[3] + 1)   # +1 in Spain
@@ -55,16 +55,22 @@ while True:
     day     = str(numbers[2])
     month   = str(numbers[1])
     year    = str(numbers[0])
+
+    if ((len(alldata) == 4) and checkPacket(alldata)):
+        tdata = float(alldata[0])
+        hdata = float(alldata[1])
+        ldata = float(alldata[2])
+		# Write to file
+        fd.write(day + '\t' + month + '\t' + year + '\t' + hour + '\t' + minute + '\t' + second + '\t' + str(tdata) + '\t' + str(hdata) + '\t' + str(ldata) + '\n')
+        # Print data
+        print(day + '\t' + month + '\t' + year + '\t' + hour + '\t' + minute + '\t' + second + '\t' + str(tdata) + '\t' + str(hdata) + '\t' + str(ldata))
+		
+        fd.close()
+        time.sleep(300)
+
+    else:
+        print('Packet discarded')
     
-    # Write to file
-    fd.write(day + '\t' + month + '\t' + year + '\t' + hour + '\t' + minute + '\t' + second + '\t' + str(tdata) + '\t' + str(hdata) + '\t' + str(ldata) + '\n')
-
-    # Print data
-    print(day + '\t' + month + '\t' + year + '\t' + hour + '\t' + minute + '\t' + second + '\t' + str(tdata) + '\t' + str(hdata) + '\t' + str(ldata))
-
-
-    fd.close()
-    time.sleep(1)
 
 # Close
 arduino.close()
