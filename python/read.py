@@ -16,6 +16,7 @@ arduino.reset_input_buffer()	# Clean buffer
 while True:
 
 	arduino.reset_input_buffer()	# Clean buffer
+	data = arduino.readline()		# Clean possible cut data
 
 	data = arduino.readline()
 	# if data:

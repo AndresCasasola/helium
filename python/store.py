@@ -44,7 +44,9 @@ while True:
     fd = open(filename, 'a')
 
     arduino.reset_input_buffer()    # Clean full buffer
-    data = arduino.readline()
+    data = arduino.readline()       # Clean possible cut data
+
+    data = arduino.readline()       # Read correct data
     alldata = data.split(',')
 
     # Get time

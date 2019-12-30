@@ -63,7 +63,7 @@ void loop(){
   Serial.print(ldata, 1);
   Serial.println(',');
 
-  delay(1000);
+  delay(100);
 
 }
 
